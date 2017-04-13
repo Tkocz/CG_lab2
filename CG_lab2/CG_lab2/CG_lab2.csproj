@@ -78,9 +78,9 @@
     <None Include="app.manifest" />
     <None Include="Content\Chopper.fbx" />
     <None Include="Content\skybox.x" />
-    <None Include="Resources\assignment_1.pdf" />
     <None Include="Resources\Chopper.fbx" />
     <None Include="MonoGame.Framework.dll.config" />
+    <None Include="Resources\ComputerGraphicsAssignment2.pdf" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
