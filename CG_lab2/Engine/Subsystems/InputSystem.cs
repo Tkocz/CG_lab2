@@ -1,4 +1,4 @@
-﻿using Manager.Components;
+using Manager.Components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -20,7 +20,6 @@ namespace Manager.Subsystems
                 var userInput = entity.GetComponent<InputComponent>();
                 if (tC == null || userInput == null)
                     continue;
-
 
                 if (Keyboard.GetState().IsKeyDown(userInput.add))
                     tC.scale *= 1.1f; // should be changed to distance from camera
