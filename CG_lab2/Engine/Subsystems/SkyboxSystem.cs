@@ -32,9 +32,9 @@ namespace Manager.Subsystems
             foreach (var entity in Engine.GetInst().Entities.Values)
             {
                 var transformComponent = entity.GetComponent<TransformComponent>();
-                if (transformComponent == null)
-                    continue;
                 var cameraComponent = entity.GetComponent<CameraComponent>();
+                if (transformComponent == null || cameraComponent == null)
+                    continue;
                 var position = transformComponent.position;
                 var view = transformComponent.scale;
 

@@ -21,38 +21,42 @@ namespace Manager.Subsystems
         //Renders models and applies the correct transforms to the models’ submeshes.
         public override void draw(GameTime gameTime)
         {
+            CameraComponent playerCam = null;
             foreach (var entity in Engine.GetInst().Entities.Values)
+            {
+                var cameraComponent = entity.GetComponent<CameraComponent>();
+                if (cameraComponent != null)
+                    playerCam = cameraComponent;
+            }
+
+                foreach (var entity in Engine.GetInst().Entities.Values)
             {
                 var modelComponent = entity.GetComponent<ModelComponent>();
                 if (modelComponent == null)
                     continue;
                 var transformComponent = entity.GetComponent<TransformComponent>();
-                var cameraComponent = entity.GetComponent<CameraComponent>();
 
-                if (cameraComponent != null)
+                var objectWorld = transformComponent.objectWorld;
+
+                foreach (ModelMesh modelMesh in modelComponent.model.Meshes)
                 {
-                    var objectWorld = transformComponent.objectWorld;
+                    foreach (BasicEffect effect in modelMesh.Effects)
+					{
+                        effect.World = modelMesh.ParentBone.Transform * objectWorld * world;
+                        effect.View = playerCam.view;
+                        effect.Projection = playerCam.projection;
 
-                    foreach (ModelMesh modelMesh in modelComponent.model.Meshes)
-                    {
-                        foreach (BasicEffect effect in modelMesh.Effects)
-						{
-                            effect.World = modelMesh.ParentBone.Transform * objectWorld * world;
-                            effect.View = cameraComponent.view;
-                            effect.Projection = cameraComponent.projection;
+                        effect.EnableDefaultLighting();
+                        effect.LightingEnabled = true;
 
-                            effect.EnableDefaultLighting();
-                            effect.LightingEnabled = true;
+						effect.DirectionalLight0.DiffuseColor = new Vector3(1f, 1f, 1f);
+						effect.DirectionalLight0.Direction = new Vector3(-0.5f, 1f, -3.5f);
+						effect.DirectionalLight0.SpecularColor = new Vector3(-0.1f, -0.1f, -0.1f);
 
-							effect.DirectionalLight0.DiffuseColor = new Vector3(1f, 1f, 1f);
-							effect.DirectionalLight0.Direction = new Vector3(-0.5f, 1f, -3.5f);
-							effect.DirectionalLight0.SpecularColor = new Vector3(-0.1f, -0.1f, -0.1f);
-
-                            foreach (EffectPass p in effect.CurrentTechnique.Passes)
-                            {
-                                p.Apply();
-								modelMesh.Draw();
-                            }
+                        foreach (EffectPass p in effect.CurrentTechnique.Passes)
+                        {
+                            p.Apply();
+							modelMesh.Draw();
                         }
                     }
                 }

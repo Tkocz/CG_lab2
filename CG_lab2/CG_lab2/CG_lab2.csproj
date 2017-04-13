@@ -57,6 +57,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Entities\Tropper.cs" />
     <Compile Include="Entities\Chopper.cs" />
     <Compile Include="Entities\HeightMap.cs" />
     <Compile Include="Game1.cs" />

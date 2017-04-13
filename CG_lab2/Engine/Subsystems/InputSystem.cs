@@ -17,9 +17,10 @@ namespace Manager.Subsystems
             foreach (var entity in Engine.GetInst().Entities.Values)
             {
                 var tC = entity.GetComponent<TransformComponent>();
-                if (tC == null)
-                    continue;
                 var userInput = entity.GetComponent<InputComponent>();
+                if (tC == null || userInput == null)
+                    continue;
+
 
                 if (Keyboard.GetState().IsKeyDown(userInput.add))
                     tC.scale *= 1.1f; // should be changed to distance from camera

@@ -21,25 +21,34 @@ namespace CG_lab1
         Entity chopper;
         public override void init()
         {
-			Engine.GetInst().addEntity(HeightMap.createComponents(
-					"US_Canyon",
-					"mudcrack"
-		   		));
+            Engine.GetInst().addEntity(HeightMap.createComponents(
+                    "US_Canyon",
+                    "mudcrack"
+                   ));
 
-            Engine.GetInst().Window.Title = "Get to the Choppaaaaargh!";
-			Engine.GetInst().Subsystems.Add(new HeightmapSystem());
+            Engine.GetInst().Window.Title = "Hashed mudcrack galore!";
+            Engine.GetInst().Subsystems.Add(new HeightmapSystem());
             Engine.GetInst().Subsystems.Add(new SkyboxSystem(world));
             Engine.GetInst().Subsystems.Add(new CameraSystem());
             Engine.GetInst().Subsystems.Add(new ModelSystem(world));
             Engine.GetInst().Subsystems.Add(new TransformSystem());
             Engine.GetInst().Subsystems.Add(new InputSystem());
 
-            chopper = Engine.GetInst().addEntity(Chopper.createComponents(
+            Engine.GetInst().addEntity(Chopper.createComponents(
                 "Chopper",
                 true,
-                new Vector3(0.5f, 0.5f, 0.5f), 
+                new Vector3(0.5f, 0.5f, 0.5f),
                 new Vector3(0f, 300f, 0f),
-                world, 
+                world,
+                world,
+                new Vector3(0.1f, 0.1f, 0.1f)
+                ));
+            Engine.GetInst().addEntity(Tropper.createComponents(
+                "bonzai",
+                false,
+                new Vector3(0.5f, 0.5f, 0.5f),
+                new Vector3(0f, 200f, 0f),
+                world,
                 world,
                 new Vector3(0.1f, 0.1f, 0.1f)
                 ));
