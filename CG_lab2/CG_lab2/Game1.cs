@@ -45,14 +45,34 @@ namespace CG_lab1
                 ));
 
 			Engine.GetInst().addEntity(Tropper.createComponents(
-                "tree1",
+                "BigBoySmooth",
+                true,
+
+				new Vector3(0.05f, 0.05f, 0.05f), 
+                new Vector3(0f, 172f, 0f),
+                world, 
+                world,
+                new Vector3(0.0f, 0.0f, 0.0f)
+                ));
+			Engine.GetInst().addEntity(Tropper.createComponents(
+                "SmallBoy",
+                true,
+
+				new Vector3(0.02f, 0.02f, 0.02f),
+                new Vector3(35f, 182f, -10f),
+                world, 
+                world,
+                new Vector3(0.0f, 0.0f, 0.0f)
+                ));
+			Engine.GetInst().addEntity(Tropper.createComponents(
+                "House1Smooth",
                 true,
 
 				new Vector3(0.1f, 0.1f, 0.1f), 
-                new Vector3(0f, 170f, 0f),
+                new Vector3(30f, 180f, 20f),
                 world, 
                 world,
-                new Vector3(0.1f, 0.1f, 0.1f)
+                new Vector3(0.0f, 0.0f, 0.0f)
                 ));
 
 

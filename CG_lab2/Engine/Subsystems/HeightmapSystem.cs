@@ -14,6 +14,7 @@ namespace Manager.Subsystems
 	{
 		public HeightmapSystem()
 		{
+			
 			device = Engine.GetInst().GraphicsDevice;
 			LoadHeightMap();
 		}
@@ -34,6 +35,12 @@ namespace Manager.Subsystems
 
 		}
 
+		public void SetUpChunks(HeightmapComponent component)
+		{
+			component.root = new HeightmapComponent.HeigthMapChunk();
+
+		}
+
 		public void SetUpBuffers(HeightmapComponent component)
 		{
 			if (component.vertexBuffer == null)
@@ -44,25 +51,6 @@ namespace Manager.Subsystems
 
 			component.indexBuffer = new IndexBuffer(device, typeof(int), component.indices.Length, BufferUsage.WriteOnly);
 			component.indexBuffer.SetData(component.indices);
-		}
-
-		private void SetUpHeightMapData(HeightmapComponent component)
-		{
-			component.heightMapData = new float[4, 3];
-			component.heightMapData[0, 0] = 0;
-			component.heightMapData[1, 0] = 0;
-			component.heightMapData[2, 0] = 0;
-			component.heightMapData[3, 0] = 0;
-
-			component.heightMapData[0, 1] = 0.5f;
-			component.heightMapData[1, 1] = 0;
-			component.heightMapData[2, 1] = -1.0f;
-			component.heightMapData[3, 1] = 0.2f;
-
-			component.heightMapData[0, 2] = 1.0f;
-			component.heightMapData[1, 2] = 1.2f;
-			component.heightMapData[2, 2] = 0.8f;
-			component.heightMapData[3, 2] = 0;
 		}
 
 		private void SetUpVertices(HeightmapComponent component)
@@ -100,6 +88,7 @@ namespace Manager.Subsystems
 					component.indices[counter++] = lowerRight;
 				}
 			}
+			Console.Out.WriteLine(component.indices.Length);
 		}
 
 		private void CalculateNormals(HeightmapComponent component)
@@ -116,7 +105,7 @@ namespace Manager.Subsystems
 				Vector3 side1 = component.vertices[index1].Position - component.vertices[index3].Position;
 				Vector3 side2 = component.vertices[index1].Position - component.vertices[index2].Position;
 				Vector3 normal = Vector3.Cross(side1, side2);
-
+				normal.Normalize();
 				component.vertices[index1].Normal += normal;
 				component.vertices[index2].Normal += normal;
 				component.vertices[index3].Normal += normal;
@@ -158,7 +147,6 @@ namespace Manager.Subsystems
 				device.SetVertexBuffer(heightMapComponent.vertexBuffer);
 				device.Indices = heightMapComponent.indexBuffer;
 				RasterizerState rs = new RasterizerState();
-				rs.FillMode = FillMode.Solid;
 				device.RasterizerState = rs;
 				var effect = heightMapComponent.basicEffect;
 				var terrainWidth = heightMapComponent.terrainWidth;
@@ -175,9 +163,9 @@ namespace Manager.Subsystems
 				effect.DirectionalLight0.Direction = new Vector3(-0.5f, 1f, -3.5f);
 				effect.DirectionalLight0.SpecularColor = new Vector3(-0.1f, -0.1f, -0.1f);
 				effect.DirectionalLight0.Enabled = true;
-				effect.FogEnabled = true;
-				effect.FogStart = 300;
-				effect.FogEnd = 400;
+				//effect.FogEnabled = true;
+				//effect.FogStart = 300;
+				//effect.FogEnd = 400;
 				effect.FogColor = Color.DimGray.ToVector3();
 				effect.AmbientLightColor = new Vector3(0.1f, 0.1f, 0.1f);
 				effect.PreferPerPixelLighting = true;
@@ -188,7 +176,8 @@ namespace Manager.Subsystems
 				foreach (EffectPass pass in effect.CurrentTechnique.Passes)
 				{
 					pass.Apply();
-					device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, heightMapComponent.vertices.Length, 0, heightMapComponent.indices.Length / 3);
+
+					device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, heightMapComponent.indices.Length / 3);
 				}
 			}
 		}

@@ -16,34 +16,43 @@ namespace Manager.Components
 		public VertexPositionNormalTexture[] vertices;
 		public VertexBuffer vertexBuffer;
 		public IndexBuffer indexBuffer;
-
 		public int terrainWidth;
 		public int terrainHeight;
+		public int chunkWidth;
+		public int chunkHeight;
+		public int nHeightMapChunks;
 
 		public BasicEffect basicEffect;
 
 		public int[] indices;
         
 		public float[,] heightMapData;
-		public struct VertexPositionColorNormal
-		{
-			public Vector3 Position;
-			public Color Color;
-			public Vector3 Normal;
 
-            public readonly static VertexDeclaration VertexDeclaration = new VertexDeclaration
-            (
-                new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),
-                new VertexElement(sizeof(float) * 3, VertexElementFormat.Color, VertexElementUsage.Color, 0),
-                new VertexElement(sizeof(float) * 3 + 4, VertexElementFormat.Vector3, VertexElementUsage.Normal, 0)
-            );
-		}
-		public HeightmapComponent(string heighMap, string heightMapTexture)
+		public class HeigthMapChunk
 		{
+			public static int nRenderedChunks;
+			public BoundingBox ChunkBoundingBox;
+			public HeigthMapChunk Up;
+			public HeigthMapChunk Left;
+			public HeigthMapChunk Down;
+			public HeigthMapChunk Right;
+		}
+
+		public HeigthMapChunk root;
+
+		public HeightmapComponent(string heighMap, string heightMapTexture, int nHeightMapChunks, int prefHeightMapWidth = -1, int prefHeightMapHeight = -1)
+		{
+			this.nHeightMapChunks = nHeightMapChunks;
 			this.heightMap = Engine.GetInst().Content.Load<Texture2D>(heighMap);
 			this.heightMapTexture = Engine.GetInst().Content.Load<Texture2D>(heightMapTexture);
-			this.terrainWidth = heightMap.Width;
-			this.terrainHeight = heightMap.Height;
+			if (prefHeightMapWidth == -1)
+				this.terrainWidth = heightMap.Width;
+			else
+				this.terrainWidth = prefHeightMapWidth;
+			if (prefHeightMapHeight == -1)
+                this.terrainHeight = heightMap.Height;
+			else
+                this.terrainHeight = prefHeightMapHeight;
 			this.basicEffect = new BasicEffect(Engine.GetInst().GraphicsDevice);
 		}
 	}
