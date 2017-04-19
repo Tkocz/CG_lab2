@@ -10,8 +10,6 @@ namespace Manager.Subsystems
     public class ModelSystem : Core
     {
         private Matrix world;
-        private static float skyscale = 10000f;
-        private Matrix skyworldM, projM;
 
         public ModelSystem(Matrix world)
         {

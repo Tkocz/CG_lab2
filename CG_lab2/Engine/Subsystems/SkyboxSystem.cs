@@ -1,4 +1,4 @@
-using Manager.Components;
+﻿using Manager.Components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -35,16 +35,8 @@ namespace Manager.Subsystems
                 var cameraComponent = entity.GetComponent<CameraComponent>();
                 if (transformComponent == null || cameraComponent == null)
                     continue;
-                var position = transformComponent.position;
-                var view = transformComponent.scale;
-
-                var scale = transformComponent.scale;
-                var rotation = transformComponent.rotation;
-                var objectWorld = transformComponent.objectWorld;
-                var elapsedGameTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-
                 skyworldM = Matrix.CreateScale(skyscale, skyscale, skyscale);
-                projM = Matrix.CreatePerspectiveFieldOfView(MathHelper.Pi / 3, 1f, 1f, 10f * skyscale);
+                projM = Matrix.CreatePerspectiveFieldOfView(MathHelper.Pi / 3, 1f, 1f, 5f * skyscale);
                 viewM = cameraComponent.view;
             }
         }

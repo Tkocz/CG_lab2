@@ -15,13 +15,10 @@ namespace Manager.Components
     /// </summary>
     public class InputComponent : Component
     {
-        public Keys add, sub, a, d, w, s, space, lShift, left, right, up, down, q, e, r;
+        public Keys a, d, w, s, space, lShift, left, right, up, down, q, e, r;
 
         public InputComponent()
         {
-            add = Keys.Add;             
-            sub = Keys.Subtract;        
-
             // --------
             // Translate
             // --------

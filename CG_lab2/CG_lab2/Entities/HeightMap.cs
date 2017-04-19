@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static Manager.Core;
 
-namespace CG_lab1
+namespace CG_lab2
 {
 	public class HeightMap
 	{

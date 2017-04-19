@@ -21,20 +21,14 @@ namespace Manager.Subsystems
                 if (tC == null || userInput == null)
                     continue;
 
-                if (Keyboard.GetState().IsKeyDown(userInput.add))
-                    tC.scale *= 1.1f; // should be changed to distance from camera
-
-                if (Keyboard.GetState().IsKeyDown(userInput.sub))
-                    tC.scale *= 0.9f; // should be changed to distance from camera
-
                 if (Keyboard.GetState().IsKeyDown(userInput.a))
-					tC.position += tC.speed.X * elapsedGameTime * tC.objectWorld.Left;
+                    tC.position += tC.speed.X * elapsedGameTime * tC.objectWorld.Left;
 
-				if (Keyboard.GetState().IsKeyDown(userInput.d))
-					tC.position += tC.speed.X * elapsedGameTime * tC.objectWorld.Right;
+                if (Keyboard.GetState().IsKeyDown(userInput.d))
+                    tC.position += tC.speed.X * elapsedGameTime * tC.objectWorld.Right;
 
                 if (Keyboard.GetState().IsKeyDown(userInput.w))
-					tC.position += tC.speed.Z * elapsedGameTime * tC.objectWorld.Forward;
+                    tC.position += tC.speed.Z * elapsedGameTime * tC.objectWorld.Forward;
 
                 if (Keyboard.GetState().IsKeyDown(userInput.s))
                     tC.position += tC.speed.Z * elapsedGameTime * tC.objectWorld.Backward;
@@ -45,35 +39,49 @@ namespace Manager.Subsystems
                 if (Keyboard.GetState().IsKeyDown(userInput.lShift))
                     tC.position += tC.speed.Y * elapsedGameTime * tC.objectWorld.Down;
 
+                Quaternion addRot;
+                float yaw = 0, pitch = 0, roll = 0;
+                float angle = elapsedGameTime * 0.001f;
 
-                Vector3 axis = new Vector3(0, 0, 0);
-                float angle = -elapsedGameTime * 0.001f;
-                
                 if (Keyboard.GetState().IsKeyDown(userInput.left))
-                    axis = new Vector3(0, -1f, 0);
-                
-                if (Keyboard.GetState().IsKeyDown(userInput.right))
-                    axis = new Vector3(0, 1f, 0);
-                
-                if (Keyboard.GetState().IsKeyDown(userInput.up))
-					axis = new Vector3(1f, 0, 0);
-                
-                if (Keyboard.GetState().IsKeyDown(userInput.down))
-                    axis = new Vector3(-1f, 0, 0);
-                
-				if (Keyboard.GetState().IsKeyDown(userInput.q))
-					axis = new Vector3(0, 0, 1f);
-                
-                if (Keyboard.GetState().IsKeyDown(userInput.e))
-                    axis = new Vector3(0, 0, -1f);
+                {
+                    yaw = -angle;
+                }
 
-				Quaternion rot = Quaternion.CreateFromAxisAngle(axis, angle);
-                rot.Normalize();
-				tC.rotation *= Matrix.CreateFromQuaternion(rot);
+                if (Keyboard.GetState().IsKeyDown(userInput.right))
+                {
+                    yaw = angle;
+                }
+
+                if (Keyboard.GetState().IsKeyDown(userInput.up))
+                {
+                    pitch = angle;
+                }
+
+                if (Keyboard.GetState().IsKeyDown(userInput.down))
+                {
+                    pitch = -angle;
+                }
+
+                if (Keyboard.GetState().IsKeyDown(userInput.q))
+                {
+                    roll = angle;
+                }
+
+                if (Keyboard.GetState().IsKeyDown(userInput.e))
+                {
+                    roll = -angle;
+                }
+
+                addRot = Quaternion.CreateFromYawPitchRoll(yaw, pitch, roll);
+
+                addRot.Normalize();
+                tC.orientation *= addRot;
+
 
                 // Reset to original (zero) rotation
                 if (Keyboard.GetState().IsKeyDown(userInput.r))
-                    tC.rotation = Matrix.Identity;
+                    tC.orientation = Quaternion.Identity;
             }
         }
     }

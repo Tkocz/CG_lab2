@@ -6,11 +6,12 @@ using Microsoft.Xna.Framework.Input;
 using static Manager.Core;
 using Manager;
 using Manager.Subsystems;
-using CG_lab1.Entities;
+using CG_lab2.Entities;
+using CG_lab2.Helpers;
 using Manager.Components;
 using System.Collections.Generic;
 
-namespace CG_lab1
+namespace CG_lab2
 {
     /// <summary>
     /// This is the main type for your game.
@@ -18,7 +19,6 @@ namespace CG_lab1
     public class Game1 : GameImpl
     {
         static Matrix world = Matrix.Identity;
-        Entity chopper;
         public override void init()
         {
 			Engine.GetInst().addEntity(HeightMap.createComponents(
@@ -39,44 +39,39 @@ namespace CG_lab1
                 true,
                 new Vector3(1f, 1f, 1f), 
                 new Vector3(0f, 300f, 0f),
-                world, 
+                Quaternion.Identity, 
                 world,
                 new Vector3(0.1f, 0.1f, 0.1f)
                 ));
 
 			Engine.GetInst().addEntity(Tropper.createComponents(
-                "BigBoySmooth",
+                "BigBoy",
                 true,
-
 				new Vector3(0.05f, 0.05f, 0.05f), 
                 new Vector3(0f, 172f, 0f),
-                world, 
+                Quaternion.Identity, 
                 world,
                 new Vector3(0.0f, 0.0f, 0.0f)
                 ));
 			Engine.GetInst().addEntity(Tropper.createComponents(
-                "SmallBoy",
+                "BigBoy",
                 true,
-
 				new Vector3(0.02f, 0.02f, 0.02f),
                 new Vector3(35f, 182f, -10f),
-                world, 
+                Quaternion.Identity, 
                 world,
                 new Vector3(0.0f, 0.0f, 0.0f)
                 ));
 			Engine.GetInst().addEntity(Tropper.createComponents(
                 "House1Smooth",
                 true,
-
 				new Vector3(0.1f, 0.1f, 0.1f), 
                 new Vector3(30f, 180f, 20f),
-                world, 
+                Quaternion.Identity, 
                 world,
                 new Vector3(0.0f, 0.0f, 0.0f)
                 ));
-
-
-
+            new StaticObjects(100);
         }
 
         public override void update(GameTime gameTime)

@@ -1,7 +1,7 @@
 ﻿using System;
 using Manager;
 
-namespace CG_lab1
+namespace CG_lab2
 {
     /// <summary>
     /// The main class.

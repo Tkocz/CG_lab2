@@ -14,14 +14,14 @@ namespace CG_lab2.Entities
     /// <summary>
     /// A predefinition of the components needed for the main entity, merely a convenient shortcut
     /// </summary>
-    public class Tropper
+    public class WorldObject
     {
-        public static Component[] createComponents(String name, bool hasTransformables, Vector3 scale, Vector3 position, Quaternion orientation, Matrix objectWorld, Vector3 speed)
+        public static Component[] createComponents(String name, Vector3 scale, Vector3 position, Quaternion orientation, Matrix objectWorld)
         {
             return new Component[]
             {
-                new ModelComponent(name, hasTransformables),
-                new TransformComponent(scale, position, orientation, objectWorld, speed)
+                new ModelComponent(name, false),
+                new TransformComponent(scale, position, orientation, objectWorld, Vector3.Zero)
             };
         }
     }

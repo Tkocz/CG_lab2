@@ -58,9 +58,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Entities\Tropper.cs" />
+    <Compile Include="Entities\WorldObject.cs" />
     <Compile Include="Entities\Chopper.cs" />
     <Compile Include="Entities\HeightMap.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Helpers\StaticObjects.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -77,8 +79,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.manifest" />
+    <None Include="Content\BigBoy.fbx" />
     <None Include="Content\Chopper.fbx" />
+    <None Include="Content\House1Smooth.fbx" />
+    <None Include="Content\Rock.fbx" />
     <None Include="Content\skybox.x" />
+    <None Include="Content\tree1.fbx" />
     <None Include="Resources\Chopper.fbx" />
     <None Include="MonoGame.Framework.dll.config" />
     <None Include="Resources\ComputerGraphicsAssignment2.pdf" />

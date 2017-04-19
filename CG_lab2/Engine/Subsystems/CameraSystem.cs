@@ -26,13 +26,13 @@ namespace Manager.Subsystems
                 }
             }
 
-			var cameraRotation = Quaternion.Lerp(camera.cameraRotation, Quaternion.CreateFromRotationMatrix(transform.rotation), 0.1f);
+			var cameraRotation = Quaternion.Lerp(camera.cameraRotation, transform.orientation, 0.1f);
 
-			Vector3 cameraPosition = Vector3.Transform(camera.offset, transform.rotation);
+			Vector3 cameraPosition = Vector3.Transform(camera.offset, transform.orientation);
 			cameraPosition += transform.position;
 
 			Vector3 cameraUp = new Vector3(0, 1, 0);
-			cameraUp = Vector3.Transform(cameraUp, transform.rotation);
+			cameraUp = Vector3.Transform(cameraUp, transform.orientation);
 
 			camera.view = Matrix.CreateLookAt(cameraPosition, transform.position, cameraUp);
 
