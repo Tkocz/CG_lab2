@@ -45,12 +45,12 @@ namespace Manager.Subsystems
 
                 if (Keyboard.GetState().IsKeyDown(userInput.left))
                 {
-                    yaw = -angle;
+                    yaw = angle;
                 }
 
                 if (Keyboard.GetState().IsKeyDown(userInput.right))
                 {
-                    yaw = angle;
+                    yaw = -angle;
                 }
 
                 if (Keyboard.GetState().IsKeyDown(userInput.up))
@@ -65,12 +65,12 @@ namespace Manager.Subsystems
 
                 if (Keyboard.GetState().IsKeyDown(userInput.q))
                 {
-                    roll = angle;
+                    roll = -angle;
                 }
 
                 if (Keyboard.GetState().IsKeyDown(userInput.e))
                 {
-                    roll = -angle;
+                    roll = angle;
                 }
 
                 addRot = Quaternion.CreateFromYawPitchRoll(yaw, pitch, roll);

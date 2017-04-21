@@ -23,11 +23,12 @@ namespace CG_lab2
         {
 			Engine.GetInst().addEntity(HeightMap.createComponents(
 					"US_Canyon",
-					"mudcrack"
+					"mudcrack",
+					4
 		   		));
 
             Engine.GetInst().Window.Title = "Get to the Choppaaaaargh!";
-			Engine.GetInst().Subsystems.Add(new HeightmapSystem());
+			Engine.GetInst().Subsystems.Add(new HeightmapChunkSystem());
             Engine.GetInst().Subsystems.Add(new SkyboxSystem(world));
             Engine.GetInst().Subsystems.Add(new CameraSystem());
             Engine.GetInst().Subsystems.Add(new ModelSystem(world));
@@ -37,27 +38,17 @@ namespace CG_lab2
            Engine.GetInst().addEntity(Chopper.createComponents(
                 "chopper",
                 true,
-                new Vector3(1f, 1f, 1f), 
-                new Vector3(0f, 300f, 0f),
+                new Vector3(0.5f, 0.5f, 0.5f), 
+                new Vector3(540f, 300f, -540f),
                 Quaternion.Identity, 
                 world,
                 new Vector3(0.1f, 0.1f, 0.1f)
                 ));
-
 			Engine.GetInst().addEntity(Tropper.createComponents(
-                "BigBoy",
+                "TreeDesertSmooth",
                 true,
-				new Vector3(0.05f, 0.05f, 0.05f), 
-                new Vector3(0f, 172f, 0f),
-                Quaternion.Identity, 
-                world,
-                new Vector3(0.0f, 0.0f, 0.0f)
-                ));
-			Engine.GetInst().addEntity(Tropper.createComponents(
-                "BigBoy",
-                true,
-				new Vector3(0.02f, 0.02f, 0.02f),
-                new Vector3(35f, 182f, -10f),
+				new Vector3(0.05f, 0.05f, 0.05f),
+                new Vector3(575f, 182f, -530f),
                 Quaternion.Identity, 
                 world,
                 new Vector3(0.0f, 0.0f, 0.0f)
@@ -66,7 +57,7 @@ namespace CG_lab2
                 "House1Smooth",
                 true,
 				new Vector3(0.1f, 0.1f, 0.1f), 
-                new Vector3(30f, 180f, 20f),
+                new Vector3(540f, 180f, -540f),
                 Quaternion.Identity, 
                 world,
                 new Vector3(0.0f, 0.0f, 0.0f)

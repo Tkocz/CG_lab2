@@ -12,7 +12,7 @@ namespace CG_lab2.Helpers
 {
     public class StaticObjects
     {
-        private List<String> names = new List<string>() { "tree1", "Rock", "BigBoy" };
+        private List<String> names = new List<string>() { "SmallBoy", "FireRock", "BigBoySmooth" };
         private String name;
         private Vector3 scale, position, speed;
         private Quaternion orientation;
@@ -24,12 +24,9 @@ namespace CG_lab2.Helpers
             {
 
                 name = names[rnd.Next(3)];
-                scale = new Vector3(0.1f, 0.1f, 0.1f);
-                position= new Vector3((float)(rnd.NextDouble() * 1081), 180f, (float)(rnd.NextDouble() * 1081));
-                if (position.X > (1081 / 2))
-                    position.X = -position.X / 2;
-                if (position.Z > (1081 / 2))
-                    position.Z = -position.Z / 2;
+                scale = new Vector3(0.05f, 0.05f, 0.05f);
+                position= new Vector3((float)(rnd.NextDouble() * 1081), 180f, (float) -(rnd.NextDouble() * 1081));
+                
                 position.Y = getHeightMapY(position);
                 orientation = Quaternion.Identity;
                 objectWorld = Matrix.Identity;
@@ -51,9 +48,9 @@ namespace CG_lab2.Helpers
                 var hMComp = entity.GetComponent<HeightmapComponent>();
                 if (hMComp != null)
                 {
-                    int xvalue = (int)position.X + (1081 / 2);
-                    int zvalue = (int)position.Z + (1081 / 2);
-                    var yValue = hMComp.heightMapData[xvalue, zvalue];
+                    int xvalue = (int)position.X;
+                    int zvalue = (int)position.Z;
+                    var yValue = hMComp.heightMapData[xvalue, -zvalue];
                     return yValue;
                 }
             }

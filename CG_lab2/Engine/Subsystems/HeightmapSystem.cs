@@ -35,11 +35,6 @@ namespace Manager.Subsystems
 
 		}
 
-		public void SetUpChunks(HeightmapComponent component)
-		{
-			component.root = new HeightmapComponent.HeigthMapChunk();
-
-		}
 
 		public void SetUpBuffers(HeightmapComponent component)
 		{
@@ -55,6 +50,7 @@ namespace Manager.Subsystems
 
 		private void SetUpVertices(HeightmapComponent component)
 		{
+				
 			component.vertices = new VertexPositionNormalTexture[component.terrainWidth * component.terrainHeight];
 			for (int x = 0; x < component.terrainWidth; x++)
 			{
@@ -163,9 +159,9 @@ namespace Manager.Subsystems
 				effect.DirectionalLight0.Direction = new Vector3(-0.5f, 1f, -3.5f);
 				effect.DirectionalLight0.SpecularColor = new Vector3(-0.1f, -0.1f, -0.1f);
 				effect.DirectionalLight0.Enabled = true;
-				//effect.FogEnabled = true;
-				//effect.FogStart = 300;
-				//effect.FogEnd = 400;
+				effect.FogEnabled = true;
+				effect.FogStart = 300;
+				effect.FogEnd = 400;
 				effect.FogColor = Color.DimGray.ToVector3();
 				effect.AmbientLightColor = new Vector3(0.1f, 0.1f, 0.1f);
 				effect.PreferPerPixelLighting = true;

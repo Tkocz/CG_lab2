@@ -47,9 +47,13 @@ namespace Manager.Subsystems
                         effect.EnableDefaultLighting();
                         effect.LightingEnabled = true;
 
+						effect.FogEnabled = true;
+						effect.FogStart = 200;
+						effect.FogEnd = 350;
+
 						effect.DirectionalLight0.DiffuseColor = new Vector3(1f, 1f, 1f);
 						effect.DirectionalLight0.Direction = new Vector3(-0.5f, 1f, -3.5f);
-						effect.DirectionalLight0.SpecularColor = new Vector3(-0.1f, -0.1f, -0.1f);
+						effect.DirectionalLight0.SpecularColor = Color.SlateGray.ToVector3();
 
                         foreach (EffectPass p in effect.CurrentTechnique.Passes)
                         {
@@ -69,8 +73,7 @@ namespace Manager.Subsystems
 					continue;
                 if (!modelComponent.hasTransformable)
                     continue;
-                var transformComponent = entity.GetComponent<TransformComponent>();
-                var cameraComponent = entity.GetComponent<CameraComponent>();
+    
                 var elapsedGameTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
                 foreach (ModelBone modelBone in modelComponent.model.Bones)

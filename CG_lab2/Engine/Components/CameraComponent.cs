@@ -22,7 +22,7 @@ namespace Manager.Components
 			cameraRotation = Quaternion.Identity;
 			offset = new Vector3(0, 50, 50);
             view = Matrix.CreateLookAt(new Vector3(0, 0, 0), new Vector3(0, 0, 0), up);
-            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, Engine.GetInst().GraphicsDevice.Viewport.AspectRatio, 1f, 1000f);
+            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, Engine.GetInst().GraphicsDevice.Viewport.AspectRatio, 1f, 400f);
         }
     }
 }

@@ -88,6 +88,20 @@
     <None Include="Resources\Chopper.fbx" />
     <None Include="MonoGame.Framework.dll.config" />
     <None Include="Resources\ComputerGraphicsAssignment2.pdf" />
+    <None Include="x86\SDL2.dll" />
+    <None Include="x86\libSDL2-2.0.so.0" />
+    <None Include="x86\libopenal.so.1" />
+    <None Include="x86\soft_oal.dll" />
+    <None Include="x64\SDL2.dll" />
+    <None Include="x64\libSDL2-2.0.so.0" />
+    <None Include="x64\libopenal.so.1" />
+    <None Include="x64\soft_oal.dll" />
+    <None Include="libopenal.1.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="libSDL2-2.0.0.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />

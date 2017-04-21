@@ -35,7 +35,7 @@ namespace Manager.Subsystems
                 var cameraComponent = entity.GetComponent<CameraComponent>();
                 if (transformComponent == null || cameraComponent == null)
                     continue;
-                skyworldM = Matrix.CreateScale(skyscale, skyscale, skyscale);
+				skyworldM = Matrix.CreateScale(skyscale, skyscale, skyscale) * Matrix.CreateTranslation(1081f / 2, 0, -1081f / 2);// * Matrix.Identity;
                 projM = Matrix.CreatePerspectiveFieldOfView(MathHelper.Pi / 3, 1f, 1f, 5f * skyscale);
                 viewM = cameraComponent.view;
             }
@@ -43,6 +43,9 @@ namespace Manager.Subsystems
         public override void draw(GameTime gameTime)
         {
             graphics.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
+			RasterizerState rs = new RasterizerState();
+			rs.CullMode = CullMode.None;
+			graphics.GraphicsDevice.RasterizerState = rs;
             skyEffect.World = skyworldM;
             skyEffect.View = viewM;
             skyEffect.Projection = projM;
