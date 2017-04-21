@@ -11,11 +11,11 @@ namespace CG_lab2
 		/// <summary>
 		/// A predefinition of the components needed for the heightmap entity, merely a convenient shortcut
 		/// </summary>
-		public static Component[] createComponents(string heighmap, string heightMapTexture)
+		public static Component[] createComponents(string heighmap, string heightMapTexture, int nHeightMapChunks)
 		{
 			return new Component[]
 			{
-				new HeightmapComponent(heighmap, heightMapTexture, 16)
+				new HeightmapComponent(heighmap, heightMapTexture, nHeightMapChunks)
 
 			};
 		}
