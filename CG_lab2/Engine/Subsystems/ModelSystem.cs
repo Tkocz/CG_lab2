@@ -42,8 +42,11 @@ namespace Manager.Subsystems
                 {
 					BoundingFrustum cameraFrustrum = new BoundingFrustum(playerCam.view * playerCam.projection);
 					var sphere = collisionComponent.modelBoundingSphere;
-					sphere.Center = transformComponent.position;
-					collisionComponent.modelBoundingSphere = sphere;
+					if (modelComponent.hasTransformable)
+					{
+						sphere.Center = transformComponent.position;;
+						collisionComponent.modelBoundingSphere = sphere;
+					}
 					if (!cameraFrustrum.Intersects(sphere))
 						continue;
 					modelcount++;
@@ -71,8 +74,9 @@ namespace Manager.Subsystems
                         }
                     }
 					var num = Engine.GetInst().Window.Title;
+					Engine.GetInst().Window.Title = "";
 					Engine.GetInst().Window.Title = string.Format("Chunks: {0} Models: {1}", num[8], modelcount);
-					Utils.DrawSphere(collisionComponent.modelBoundingSphere, collisionComponent.boundColor, Engine.GetInst().GraphicsDevice, new BasicEffect(Engine.GetInst().GraphicsDevice), Matrix.Identity, playerCam.view, playerCam.projection);
+					//Utils.DrawSphere(collisionComponent.modelBoundingSphere, collisionComponent.boundColor, Engine.GetInst().GraphicsDevice, new BasicEffect(Engine.GetInst().GraphicsDevice), Matrix.Identity, playerCam.view, playerCam.projection);
                 }
             }
         }

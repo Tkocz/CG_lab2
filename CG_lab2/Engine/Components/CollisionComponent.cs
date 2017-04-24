@@ -38,7 +38,7 @@ namespace Manager.Components
 				BoundingSphere transformedBoundingSphere = new BoundingSphere(transformedSphereCenter, transformedSphereRadius);
 				modelBoundingSphere = BoundingSphere.CreateMerged(modelBoundingSphere, meshSphere);
 			}
-			modelBoundingSphere = modelBoundingSphere.Transform(Matrix.CreateTranslation(transform.position));
+			modelBoundingSphere = modelBoundingSphere.Transform(Matrix.CreateTranslation(new Vector3(transform.position.X, transform.position.Y + modelBoundingSphere.Radius * 2, transform.position.Z)));
 		}
 	}
 }
