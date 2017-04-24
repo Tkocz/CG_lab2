@@ -1,5 +1,6 @@
 ﻿using Manager;
 using Manager.Components;
+using Manager.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -19,6 +20,7 @@ namespace Manager.Subsystems
         //Renders models and applies the correct transforms to the models’ submeshes.
         public override void draw(GameTime gameTime)
         {
+			var modelcount = 0;
             CameraComponent playerCam = null;
             foreach (var entity in Engine.GetInst().Entities.Values)
             {
@@ -33,14 +35,21 @@ namespace Manager.Subsystems
                 if (modelComponent == null)
                     continue;
                 var transformComponent = entity.GetComponent<TransformComponent>();
-
+				var collisionComponent = entity.GetComponent<CollisionComponent>();
                 var objectWorld = transformComponent.objectWorld;
 
                 foreach (ModelMesh modelMesh in modelComponent.model.Meshes)
                 {
+					BoundingFrustum cameraFrustrum = new BoundingFrustum(playerCam.view * playerCam.projection);
+					var sphere = collisionComponent.modelBoundingSphere;
+					sphere.Center = transformComponent.position;
+					collisionComponent.modelBoundingSphere = sphere;
+					if (!cameraFrustrum.Intersects(sphere))
+						continue;
+					modelcount++;
                     foreach (BasicEffect effect in modelMesh.Effects)
 					{
-                        effect.World = modelMesh.ParentBone.Transform * objectWorld * world;
+						effect.World = modelMesh.ParentBone.Transform * objectWorld * world;
                         effect.View = playerCam.view;
                         effect.Projection = playerCam.projection;
 
@@ -61,6 +70,9 @@ namespace Manager.Subsystems
 							modelMesh.Draw();
                         }
                     }
+					var num = Engine.GetInst().Window.Title;
+					Engine.GetInst().Window.Title = string.Format("Chunks: {0} Models: {1}", num[8], modelcount);
+					Utils.DrawSphere(collisionComponent.modelBoundingSphere, collisionComponent.boundColor, Engine.GetInst().GraphicsDevice, new BasicEffect(Engine.GetInst().GraphicsDevice), Matrix.Identity, playerCam.view, playerCam.projection);
                 }
             }
         }

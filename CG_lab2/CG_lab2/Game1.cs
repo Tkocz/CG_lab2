@@ -24,7 +24,7 @@ namespace CG_lab2
 			Engine.GetInst().addEntity(HeightMap.createComponents(
 					"US_Canyon",
 					"mudcrack",
-					4
+					3
 		   		));
 
             Engine.GetInst().Window.Title = "Get to the Choppaaaaargh!";
@@ -42,10 +42,10 @@ namespace CG_lab2
                 new Vector3(540f, 300f, -540f),
                 Quaternion.Identity, 
                 world,
-                new Vector3(0.1f, 0.1f, 0.1f)
+                new Vector3(0.08f, 0.1f, 0.1f)
                 ));
 			Engine.GetInst().addEntity(Tropper.createComponents(
-                "TreeDesertSmooth",
+                "TreeDesertSmoothbb",
                 true,
 				new Vector3(0.05f, 0.05f, 0.05f),
                 new Vector3(575f, 182f, -530f),

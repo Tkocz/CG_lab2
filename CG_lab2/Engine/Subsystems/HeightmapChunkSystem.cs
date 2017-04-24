@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Manager;
 using Manager.Components;
 using Microsoft.Xna.Framework.Graphics;
+using Manager.Helpers;
 
 namespace Manager.Subsystems
 {
@@ -29,24 +30,28 @@ namespace Manager.Subsystems
 				if (heightmapComponent == null)
 					continue;
 				LoadHeightMapData(heightmapComponent.heightMap, heightmapComponent);
-				var offsetWidth = heightmapComponent.terrainWidth / (int) Math.Sqrt(heightmapComponent.nHeightMapChunks);
-				var offsetHeight = heightmapComponent.terrainHeight / (int) Math.Sqrt(heightmapComponent.nHeightMapChunks);
+				int split = (int)Math.Sqrt(heightmapComponent.nHeightMapChunks);
+				int offsetWidth = heightmapComponent.terrainWidth / split;
+				int offsetHeight = heightmapComponent.terrainHeight / split;
 				int count = 0;
-				for (int i = 0; i < heightmapComponent.nHeightMapChunks / (int) Math.Sqrt(heightmapComponent.nHeightMapChunks); i++)
+				for (int i = 0; i < heightmapComponent.nHeightMapChunks / split; i++)
 				{
-					for (int j = 0; j < heightmapComponent.nHeightMapChunks / (int) Math.Sqrt(heightmapComponent.nHeightMapChunks); j++)
+					for (int j = 0; j < heightmapComponent.nHeightMapChunks / split; j++)
 					{
-						var widthstart = i * offsetWidth;
-						var widthend = (i + 1) * offsetWidth;
-						var heightstart = j * offsetHeight;
-						var heightend = (j + 1) * offsetHeight;
+						int widthstart = i * offsetWidth;
+						int widthend = (i + 1) * offsetWidth;
+						int heightstart = j * offsetHeight;
+						int heightend = (j + 1) * offsetHeight;
+						if (widthstart != 0) widthstart--;
+						if (heightstart != 0) heightstart--;
+
 
 						heightmapComponent.heightMapChunk[count].vertices = SetUpVertices(widthstart, widthend, heightstart, heightend, heightmapComponent, count);
 						heightmapComponent.heightMapChunk[count].indices = SetUpIndices(widthstart, widthend, heightstart, heightend);
 						Random rand = new Random();
 						heightmapComponent.heightMapChunk[count].boundColor = new Color(rand.Next(255), rand.Next(255), rand.Next(255));
 						heightmapComponent.heightMapChunk[count].chunkBoundingBox = CreateBoundingBox(widthend, heightend, widthstart, heightstart, heightmapComponent.heightMapChunk[count]);
-						Console.Out.WriteLine("Cunt: " + count);
+						Console.Out.WriteLine("Count: " + count);
 						Console.Out.WriteLine("WidthStart: " + widthstart);
 						Console.Out.WriteLine("WidthEnd: " + widthend);
 						Console.Out.WriteLine("HeightStart: " + heightstart);
@@ -62,7 +67,8 @@ namespace Manager.Subsystems
 
 		private BoundingBox CreateBoundingBox(int withend, int heightend, int widthstart, int heightstart, HeightmapComponent.HeightMapChunk chunk)
 		{
-			
+			if (widthstart != 0) widthstart++;
+			if (heightstart != 0) heightstart++;
 			Vector3[] boundaryPoints = new Vector3[2];
 			boundaryPoints[0] = new Vector3(widthstart, 0, -heightstart);
 			boundaryPoints[1] = new Vector3(withend, (int)chunk.heighestPoint - 2, -heightend);
@@ -207,58 +213,26 @@ namespace Manager.Subsystems
 				effect.EmissiveColor = new Vector3(0.1f, 0.1f, 0.1f);
 				effect.TextureEnabled = true;
 				effect.Texture = heightMapComponent.heightMapTexture;
-				var count = 0;
-				Engine.GetInst().Window.Title = "";
+				var renderCount = 0;
 				foreach (HeightmapComponent.HeightMapChunk chunk in heightMapComponent.heightMapChunk)
 				{
 
 					device.SetVertexBuffer(chunk.vertexBuffer);
 					device.Indices = chunk.indexBuffer;
-					if (!chunk.chunkBoundingBox.Intersects(cameraFrustrum))
+					if (!cameraFrustrum.Intersects(chunk.chunkBoundingBox))
 						continue;
-					
 						
 					foreach (EffectPass pass in effect.CurrentTechnique.Passes)
 					{
 						pass.Apply();
 						device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, chunk.indices.Length / 3);
 					}
-					count++;
-					Engine.GetInst().Window.Title = "Rendered Nodes: " +  count;
+					renderCount++;
+					var num = Engine.GetInst().Window.Title;
+					Engine.GetInst().Window.Title = string.Format("Chunks: {0} Models: {1}", renderCount, num[18]);
 
-                	DrawBoundingBox(chunk.chunkBoundingBox, chunk.boundColor, device, new BasicEffect(device), Matrix.Identity, camera.view, camera.projection);
+                	Utils.DrawBoundingBox(chunk.chunkBoundingBox, chunk.boundColor, device, new BasicEffect(device), Matrix.Identity, camera.view, camera.projection);
 				}
-			}
-		}
-
-		public static void DrawBoundingBox(BoundingBox bBox, Color color, GraphicsDevice device, BasicEffect basicEffect, Matrix worldMatrix, Matrix viewMatrix, Matrix projectionMatrix)
-		{
-			Vector3 v1 = bBox.Min;
-			Vector3 v2 = bBox.Max;
-
-			VertexPositionColor[] cubeLineVertices = new VertexPositionColor[8];
-			cubeLineVertices[0] = new VertexPositionColor(v1, color);
-			cubeLineVertices[1] = new VertexPositionColor(new Vector3(v2.X, v1.Y, v1.Z), color);
-			cubeLineVertices[2] = new VertexPositionColor(new Vector3(v2.X, v1.Y, v2.Z), color);
-			cubeLineVertices[3] = new VertexPositionColor(new Vector3(v1.X, v1.Y, v2.Z), color);
-
-			cubeLineVertices[4] = new VertexPositionColor(new Vector3(v1.X, v2.Y, v1.Z), color);
-			cubeLineVertices[5] = new VertexPositionColor(new Vector3(v2.X, v2.Y, v1.Z), color);
-			cubeLineVertices[6] = new VertexPositionColor(v2, color);
-			cubeLineVertices[7] = new VertexPositionColor(new Vector3(v1.X, v2.Y, v2.Z), color);
-
-			short[] cubeLineIndices = { 0, 1, 1, 2, 2, 3, 3, 0, 4, 5, 5, 6, 6, 7, 7, 4, 0, 4, 1, 5, 2, 6, 3, 7 };
-			RasterizerState rs = new RasterizerState();
-			basicEffect.World = worldMatrix;
-			basicEffect.View = viewMatrix;
-			basicEffect.Projection = projectionMatrix;
-			basicEffect.VertexColorEnabled = true;
-			rs.FillMode = FillMode.Solid;
-			foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes)
-			{
-				pass.Apply();
-				device.DrawUserIndexedPrimitives(PrimitiveType.LineList, cubeLineVertices, 0, 8, cubeLineIndices, 0, 12);
-
 			}
 		}
 	}

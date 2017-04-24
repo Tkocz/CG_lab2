@@ -17,11 +17,14 @@ namespace CG_lab2.Entities
     public class WorldObject
     {
         public static Component[] createComponents(String name, Vector3 scale, Vector3 position, Quaternion orientation, Matrix objectWorld)
-        {
+		{
+			ModelComponent model = new ModelComponent(name, false);
+			TransformComponent trans = new TransformComponent(scale, position, orientation, objectWorld, Vector3.Zero);
             return new Component[]
             {
-                new ModelComponent(name, false),
-                new TransformComponent(scale, position, orientation, objectWorld, Vector3.Zero)
+                model,
+                trans,
+				new CollisionComponent(model, trans)
             };
         }
     }

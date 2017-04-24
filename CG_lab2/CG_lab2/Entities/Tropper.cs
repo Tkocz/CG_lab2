@@ -18,10 +18,13 @@ namespace CG_lab2.Entities
     {
         public static Component[] createComponents(String name, bool hasTransformables, Vector3 scale, Vector3 position, Quaternion orientation, Matrix objectWorld, Vector3 speed)
         {
-            return new Component[]
-            {
-                new ModelComponent(name, hasTransformables),
-                new TransformComponent(scale, position, orientation, objectWorld, speed)
+			ModelComponent model = new ModelComponent(name, hasTransformables);
+			TransformComponent trans = new TransformComponent(scale, position, orientation, objectWorld, speed);
+			return new Component[]
+			{
+				model,
+				trans,
+				new CollisionComponent(model, trans)
             };
         }
     }

@@ -16,8 +16,6 @@ namespace Manager.Components
         public Texture2D heightMap;
 		public Texture2D heightMapTexture;
 		public VertexPositionNormalTexture[] vertices;
-		public List<VertexPositionNormalTexture> vertList;
-		public List<int> indList;
 		public VertexBuffer vertexBuffer;
 		public IndexBuffer indexBuffer;
 		public int terrainWidth;
@@ -40,23 +38,21 @@ namespace Manager.Components
 
 		public HeightMapChunk [] heightMapChunk;
 
-		public HeightmapComponent(string heighMap, string heightMapTexture, int nHeightMapChunks, int prefHeightMapWidth = -1, int prefHeightMapHeight = -1)
+		public HeightmapComponent(string heighMap, string heightMapTexture, int nHeightMapChunks, int prefHeightMapWidth = 0, int prefHeightMapHeight = 0)
 		{
 			this.nHeightMapChunks = nHeightMapChunks * nHeightMapChunks;
 			heightMap = Engine.GetInst().Content.Load<Texture2D>(heighMap);
 			this.heightMapTexture = Engine.GetInst().Content.Load<Texture2D>(heightMapTexture);
-			if (prefHeightMapWidth == -1)
+			if (prefHeightMapWidth == 0)
 				terrainWidth = heightMap.Width;
 			else
 				terrainWidth = prefHeightMapWidth;
-			if (prefHeightMapHeight == -1)
+			if (prefHeightMapHeight == 0)
 				terrainHeight = heightMap.Height;
 			else
 				terrainHeight = prefHeightMapHeight;
 			basicEffect = new BasicEffect(Engine.GetInst().GraphicsDevice);
 			heightMapChunk = new HeightMapChunk[this.nHeightMapChunks];
-			vertList = new List<VertexPositionNormalTexture>();
-			indList = new List<int>();
 		}
 	}
 }
