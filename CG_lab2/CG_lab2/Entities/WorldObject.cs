@@ -19,7 +19,7 @@ namespace CG_lab2.Entities
         public static Component[] createComponents(String name, Vector3 scale, Vector3 position, Quaternion orientation, Matrix objectWorld)
 		{
 			ModelComponent model = new ModelComponent(name, false);
-			TransformComponent trans = new TransformComponent(scale, position, orientation, objectWorld, Vector3.Zero);
+			TransformComponent trans = new TransformComponent(scale, position, orientation, objectWorld);
             return new Component[]
             {
                 model,

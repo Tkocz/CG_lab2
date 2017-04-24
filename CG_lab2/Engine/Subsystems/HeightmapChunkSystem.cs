@@ -229,8 +229,8 @@ namespace Manager.Subsystems
 					}
 					renderCount++;
 					var num = Engine.GetInst().Window.Title;
-					Engine.GetInst().Window.Title = "";
-					Engine.GetInst().Window.Title = string.Format("Chunks: {0} Models: {1}", renderCount, num[18]);
+					//Engine.GetInst().Window.Title = "";
+					//Engine.GetInst().Window.Title = string.Format("Chunks: {0} Models: {1}", renderCount, num[18]);
 
                 	Utils.DrawBoundingBox(chunk.chunkBoundingBox, chunk.boundColor, device, new BasicEffect(device), Matrix.Identity, camera.view, camera.projection);
 				}

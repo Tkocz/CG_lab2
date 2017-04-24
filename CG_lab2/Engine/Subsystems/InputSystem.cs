@@ -21,67 +21,63 @@ namespace Manager.Subsystems
                 if (tC == null || userInput == null)
                     continue;
 
-                if (Keyboard.GetState().IsKeyDown(userInput.a))
-                    tC.position += tC.speed.X * elapsedGameTime * tC.objectWorld.Left;
-
-                if (Keyboard.GetState().IsKeyDown(userInput.d))
-                    tC.position += tC.speed.X * elapsedGameTime * tC.objectWorld.Right;
-
-                if (Keyboard.GetState().IsKeyDown(userInput.w))
-                    tC.position += tC.speed.Z * elapsedGameTime * tC.objectWorld.Forward;
-
-                if (Keyboard.GetState().IsKeyDown(userInput.s))
-                    tC.position += tC.speed.Z * elapsedGameTime * tC.objectWorld.Backward;
-
-                if (Keyboard.GetState().IsKeyDown(userInput.space))
-                    tC.position += tC.speed.Y * elapsedGameTime * tC.objectWorld.Up;
-
-                if (Keyboard.GetState().IsKeyDown(userInput.lShift))
-                    tC.position += tC.speed.Y * elapsedGameTime * tC.objectWorld.Down;
-
                 Quaternion addRot;
                 float yaw = 0, pitch = 0, roll = 0;
                 float angle = elapsedGameTime * 0.001f;
 
-                if (Keyboard.GetState().IsKeyDown(userInput.left))
+                float rotation = 0;
+
+                if (Keyboard.GetState().IsKeyDown(Keys.Up))
                 {
+                    tC.currentKey = Keys.Up;
+                    if (tC.speed < 1)
+                        tC.speed += 0.01f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                    if (tC.modelRotation < tC.MAXROTATION)
+                    {
+                        if (tC.direction)
+                            tC.modelRotation += tC.speed * tC.rotationSpeed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                        else
+                            tC.modelRotation -= tC.speed * tC.rotationSpeed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                    }
+                    else
+                    {
+                        if (!tC.direction)
+                            tC.modelRotation -= tC.speed * tC.rotationSpeed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                        else
+                            tC.modelRotation += tC.speed * tC.rotationSpeed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                    }
+
+                    if (tC.modelRotation > tC.MAXROTATION || tC.modelRotation < -tC.MAXROTATION)
+                        tC.direction = !tC.direction;
+                    tC.position += tC.speed * elapsedGameTime * tC.objectWorld.Backward;
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.Left))
+                {
+                    tC.currentKey = Keys.Left;
+                    rotation += tC.speed * MathHelper.PiOver4 * (float)gameTime.ElapsedGameTime.Milliseconds;
+                    tC.speed -= 0.01f * (float)gameTime.ElapsedGameTime.TotalSeconds;
                     yaw = angle;
                 }
-
-                if (Keyboard.GetState().IsKeyDown(userInput.right))
+                if (Keyboard.GetState().IsKeyDown(Keys.Right))
                 {
+                    tC.currentKey = Keys.Right;
+                    rotation -= tC.speed * MathHelper.PiOver4 * (float)gameTime.ElapsedGameTime.Milliseconds;
+                    tC.speed -= 0.01f * (float)gameTime.ElapsedGameTime.TotalSeconds;
                     yaw = -angle;
                 }
-
-                if (Keyboard.GetState().IsKeyDown(userInput.up))
+                if (tC.currentKey != Keys.Up && tC.currentKey != Keys.Left && tC.currentKey != Keys.Right)
                 {
-                    pitch = angle;
+                    tC.currentKey = Keys.None;
+                    if (tC.speed > 0)
+                        tC.speed -= 0.1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    if (tC.speed < 0)
+                        tC.speed = 0;
                 }
-
-                if (Keyboard.GetState().IsKeyDown(userInput.down))
-                {
-                    pitch = -angle;
-                }
-
-                if (Keyboard.GetState().IsKeyDown(userInput.q))
-                {
-                    roll = -angle;
-                }
-
-                if (Keyboard.GetState().IsKeyDown(userInput.e))
-                {
-                    roll = angle;
-                }
-
                 addRot = Quaternion.CreateFromYawPitchRoll(yaw, pitch, roll);
 
                 addRot.Normalize();
                 tC.orientation *= addRot;
-
-
-                // Reset to original (zero) rotation
-                if (Keyboard.GetState().IsKeyDown(userInput.r))
-                    tC.orientation = Quaternion.Identity;
             }
         }
     }

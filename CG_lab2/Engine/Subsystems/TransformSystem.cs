@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Manager.Components;
 using Microsoft.Xna.Framework;
+using Manager.Helpers;
 
 namespace Manager.Subsystems
 {
@@ -15,15 +16,38 @@ namespace Manager.Subsystems
         {
 			foreach (var entity in Engine.GetInst().Entities.Values)
 			{
-				var transformComp = entity.GetComponent<TransformComponent>();
-				if (transformComp == null)
+				var tC = entity.GetComponent<TransformComponent>();
+                var cC = entity.GetComponent<CameraComponent>();
+				if (tC == null || cC == null)
 					continue;
-				var scale = transformComp.scale;
-				var orientation = transformComp.orientation;
-				var objectWorld = transformComp.objectWorld;
-				var position = transformComp.position;
-				transformComp.objectWorld = Matrix.CreateScale(scale) * Matrix.CreateFromQuaternion(orientation) * Matrix.CreateTranslation(position);
-			}
+				var scale = tC.scale;
+				var orientation = tC.orientation;
+				var objectWorld = tC.objectWorld;
+				var position = tC.position;
+				tC.objectWorld = Matrix.CreateScale(scale) * Matrix.CreateFromQuaternion(orientation) * Matrix.CreateTranslation(position);
+
+                if (tC.currentKey == Microsoft.Xna.Framework.Input.Keys.Up)
+                {
+                    if (tC.modelRotation < tC.MAXROTATION)
+                    {
+                        if (tC.direction)
+                            tC.modelRotation += tC.speed * tC.rotationSpeed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                        else
+                            tC.modelRotation -= tC.speed * tC.rotationSpeed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                    }
+                    else
+                    {
+                        if (!tC.direction)
+                            tC.modelRotation -= tC.speed * tC.rotationSpeed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                        else
+                            tC.modelRotation += tC.speed * tC.rotationSpeed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                    }
+
+                    if (tC.modelRotation > tC.MAXROTATION || tC.modelRotation < -tC.MAXROTATION)
+                        tC.direction = !tC.direction;
+                }
+                tC.position.Y = new HeightMapHelper().getHeightMapY(tC.position);
+            }
         }
     }
 }

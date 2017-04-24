@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using static Manager.Core;
+using Manager.Helpers;
 
 namespace Manager.Components
 {
@@ -15,10 +16,17 @@ namespace Manager.Components
         public Model model;
         public bool hasTransformable;
         public BasicEffect modelEffect;
+        public ModelComponent(bool hasTransformable)
+        {
+            this.hasTransformable = hasTransformable;
+            model = new CubeModel().CreateCubeModel("robot");
+        }
         public ModelComponent(string modelName, bool hasTransformable)
         {
             model = Engine.GetInst().Content.Load<Model>(modelName);
             this.hasTransformable = hasTransformable;
         }
+
+        
     }
 }
