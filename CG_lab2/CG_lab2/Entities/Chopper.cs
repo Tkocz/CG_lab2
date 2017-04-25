@@ -16,7 +16,7 @@ namespace CG_lab2.Entities
     /// </summary>
     public class Chopper
     {
-        public static Component[] createComponents(String name,bool hasTransformables, Vector3 scale, Vector3 position, Quaternion orientation, Matrix objectWorld)
+        public static Component[] createComponents(String name,bool hasTransformables, Vector3 scale, Vector3 position, Quaternion orientation, Matrix objectWorld, Vector3 speed)
         {
 			ModelComponent model = new ModelComponent(name, hasTransformables);
 			TransformComponent trans = new TransformComponent(scale, position, orientation, objectWorld);
@@ -24,7 +24,7 @@ namespace CG_lab2.Entities
 			{
 				new CameraComponent(),
 				model,
-				trans,
+				new TransformComponent(scale, position, orientation, objectWorld),
 				new InputComponent(),
 				new CollisionComponent(model, trans)
             };

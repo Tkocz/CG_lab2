@@ -18,6 +18,7 @@ namespace Manager.Subsystems
             {
                 var tC = entity.GetComponent<TransformComponent>();
                 var userInput = entity.GetComponent<InputComponent>();
+                var playerCam = entity.GetComponent<CameraComponent>();
                 if (tC == null || userInput == null)
                     continue;
 
@@ -29,7 +30,6 @@ namespace Manager.Subsystems
 
                 if (Keyboard.GetState().IsKeyDown(Keys.Up))
                 {
-                    tC.currentKey = Keys.Up;
                     if (tC.speed < 1)
                         tC.speed += 0.01f * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -54,30 +54,27 @@ namespace Manager.Subsystems
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.Left))
                 {
-                    tC.currentKey = Keys.Left;
                     rotation += tC.speed * MathHelper.PiOver4 * (float)gameTime.ElapsedGameTime.Milliseconds;
-                    tC.speed -= 0.01f * (float)gameTime.ElapsedGameTime.TotalSeconds;
                     yaw = angle;
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.Right))
                 {
-                    tC.currentKey = Keys.Right;
                     rotation -= tC.speed * MathHelper.PiOver4 * (float)gameTime.ElapsedGameTime.Milliseconds;
-                    tC.speed -= 0.01f * (float)gameTime.ElapsedGameTime.TotalSeconds;
                     yaw = -angle;
-                }
-                if (tC.currentKey != Keys.Up && tC.currentKey != Keys.Left && tC.currentKey != Keys.Right)
-                {
-                    tC.currentKey = Keys.None;
-                    if (tC.speed > 0)
-                        tC.speed -= 0.1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    if (tC.speed < 0)
-                        tC.speed = 0;
                 }
                 addRot = Quaternion.CreateFromYawPitchRoll(yaw, pitch, roll);
 
                 addRot.Normalize();
                 tC.orientation *= addRot;
+
+                if (playerCam == null)
+                    continue;
+                //camera-rotation
+                if (Keyboard.GetState().IsKeyDown(userInput.a))
+                    playerCam.offset.X += 1;
+
+                if (Keyboard.GetState().IsKeyDown(userInput.d))
+                    playerCam.offset.X -= 1;
             }
         }
     }

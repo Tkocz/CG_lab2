@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Manager.Components;
 using Microsoft.Xna.Framework;
 using Manager.Helpers;
+using Microsoft.Xna.Framework.Input;
 
 namespace Manager.Subsystems
 {
@@ -14,21 +15,24 @@ namespace Manager.Subsystems
         //Computes the transformation matrices (world-matrices) for all TransformComponents.
         public override void update(GameTime gameTime)
         {
-			foreach (var entity in Engine.GetInst().Entities.Values)
+
+
+            foreach (var entity in Engine.GetInst().Entities.Values)
 			{
 				var tC = entity.GetComponent<TransformComponent>();
-                var cC = entity.GetComponent<CameraComponent>();
-				if (tC == null || cC == null)
+				if (tC == null)
 					continue;
-				var scale = tC.scale;
-				var orientation = tC.orientation;
-				var objectWorld = tC.objectWorld;
-				var position = tC.position;
-				tC.objectWorld = Matrix.CreateScale(scale) * Matrix.CreateFromQuaternion(orientation) * Matrix.CreateTranslation(position);
-
-                if (tC.currentKey == Microsoft.Xna.Framework.Input.Keys.Up)
+                var scale = tC.scale;
+                var orientation = tC.orientation;
+                var objectWorld = tC.objectWorld;
+                var position = tC.position;
+                tC.objectWorld = Matrix.CreateScale(scale) * Matrix.CreateFromQuaternion(orientation) * Matrix.CreateTranslation(position);
+                tC.modelRotation = 0;
+                tC.speed = 0;
+                if (Keyboard.GetState().IsKeyDown(Keys.Up))
                 {
-                    if (tC.modelRotation < tC.MAXROTATION)
+                    tC.speed = 0.001f * (float)gameTime.ElapsedGameTime.Milliseconds;
+                    if (tC.modelRotation < MathHelper.PiOver4)
                     {
                         if (tC.direction)
                             tC.modelRotation += tC.speed * tC.rotationSpeed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
@@ -43,10 +47,11 @@ namespace Manager.Subsystems
                             tC.modelRotation += tC.speed * tC.rotationSpeed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                     }
 
-                    if (tC.modelRotation > tC.MAXROTATION || tC.modelRotation < -tC.MAXROTATION)
+                    if (tC.modelRotation > MathHelper.PiOver4 || tC.modelRotation < -MathHelper.PiOver4)
                         tC.direction = !tC.direction;
                 }
                 tC.position.Y = new HeightMapHelper().getHeightMapY(tC.position);
+                tC.Rotation *= Quaternion.CreateFromYawPitchRoll(tC.modelRotation, 0, 0);
             }
         }
     }

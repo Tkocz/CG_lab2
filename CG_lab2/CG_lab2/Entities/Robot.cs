@@ -14,7 +14,7 @@ namespace CG_lab2.Entities
     {
         public static Component[] createComponents(String name, bool hasTransformable, Vector3 scale, Vector3 position, Quaternion orientation, Matrix objectWorld)
         {
-            ModelComponent model = new ModelComponent(hasTransformable);
+            MeshModelComponent model = new MeshModelComponent(hasTransformable);
             TransformComponent trans = new TransformComponent(scale, position, orientation, objectWorld);
             return new Component[]
             {

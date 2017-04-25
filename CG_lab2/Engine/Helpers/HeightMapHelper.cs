@@ -24,7 +24,7 @@ namespace Manager.Helpers
                         var yValue = hMComp.heightMapData[xvalue, -zvalue];
                         return yValue;
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         return 200f;
                     }

@@ -27,10 +27,11 @@ namespace CG_lab2
 					3
 		   		));
 
-            Engine.GetInst().Window.Title = "I walk funny!";
+            Engine.GetInst().Window.Title = "Get to the Choppaaaaargh!";
 			Engine.GetInst().Subsystems.Add(new HeightmapChunkSystem());
             Engine.GetInst().Subsystems.Add(new SkyboxSystem(world));
             Engine.GetInst().Subsystems.Add(new CameraSystem());
+            Engine.GetInst().Subsystems.Add(new MeshModelSystem(world));
             Engine.GetInst().Subsystems.Add(new ModelSystem(world));
             Engine.GetInst().Subsystems.Add(new TransformSystem());
             Engine.GetInst().Subsystems.Add(new InputSystem());
@@ -38,7 +39,7 @@ namespace CG_lab2
            Engine.GetInst().addEntity(Robot.createComponents(
                 "robot",
                 true,
-                new Vector3(1f, 1f, 1f), 
+                new Vector3(2f, 2f, 2f), 
                 new Vector3(540f, 300f, -540f),
                 Quaternion.Identity, 
                 world
@@ -49,7 +50,8 @@ namespace CG_lab2
 				new Vector3(0.05f, 0.05f, 0.05f),
                 new Vector3(575f, 182f, -530f),
                 Quaternion.Identity, 
-                world
+                world,
+                new Vector3(0.0f, 0.0f, 0.0f)
                 ));
 			Engine.GetInst().addEntity(Tropper.createComponents(
                 "House1Smooth",
@@ -57,7 +59,8 @@ namespace CG_lab2
 				new Vector3(0.1f, 0.1f, 0.1f), 
                 new Vector3(540f, 180f, -540f),
                 Quaternion.Identity, 
-                world
+                world,
+                new Vector3(0.0f, 0.0f, 0.0f)
                 ));
             new StaticObjects(100);
         }

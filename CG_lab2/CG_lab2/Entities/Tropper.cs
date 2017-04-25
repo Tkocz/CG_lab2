@@ -16,7 +16,7 @@ namespace CG_lab2.Entities
     /// </summary>
     public class Tropper
     {
-        public static Component[] createComponents(String name, bool hasTransformables, Vector3 scale, Vector3 position, Quaternion orientation, Matrix objectWorld)
+        public static Component[] createComponents(String name, bool hasTransformables, Vector3 scale, Vector3 position, Quaternion orientation, Matrix objectWorld, Vector3 speed)
         {
 			ModelComponent model = new ModelComponent(name, hasTransformables);
 			TransformComponent trans = new TransformComponent(scale, position, orientation, objectWorld);

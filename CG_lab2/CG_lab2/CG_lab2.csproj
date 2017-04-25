@@ -86,6 +86,7 @@
     <None Include="Content\House1Smooth.fbx" />
     <None Include="Content\Rock.fbx" />
     <None Include="Content\skybox.x" />
+    <None Include="Content\SmallBoy.fbx" />
     <None Include="Content\tree1.fbx" />
     <None Include="Content\TreeDesertSmoothbb.fbx" />
     <None Include="Resources\Chopper.fbx" />

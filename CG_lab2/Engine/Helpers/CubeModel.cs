@@ -22,17 +22,17 @@ namespace Manager.Helpers
             meshPartBody.IndexBuffer = body.indexBuffer;
             meshPartBody.VertexBuffer = body.vertexBuffer;
             meshPartBody.PrimitiveCount = body.vertices.Length / 3;
-            meshPartBody.PrimitiveCount = body.vertices.Length;
+            meshPartBody.NumVertices = body.vertices.Length;
 
             meshPartLLeg.IndexBuffer = lLeg.indexBuffer;
             meshPartLLeg.VertexBuffer = lLeg.vertexBuffer;
             meshPartLLeg.PrimitiveCount = lLeg.vertices.Length / 3;
-            meshPartLLeg.PrimitiveCount = lLeg.vertices.Length;
+            meshPartLLeg.NumVertices = lLeg.vertices.Length;
 
             meshPartRLeg.IndexBuffer = rLeg.indexBuffer;
             meshPartRLeg.VertexBuffer = rLeg.vertexBuffer;
             meshPartRLeg.PrimitiveCount = rLeg.vertices.Length / 3;
-            meshPartRLeg.PrimitiveCount = rLeg.vertices.Length;
+            meshPartRLeg.NumVertices = rLeg.vertices.Length;
 
             List<ModelMeshPart> meshBodyList = new List<ModelMeshPart>();
             meshBodyList.Add(meshPartBody);
@@ -56,7 +56,7 @@ namespace Manager.Helpers
             var boneRLeg = new ModelBone();
             boneRLeg.Index = 1;
             boneRLeg.Name = "RightLeg";
-            boneRLeg.Transform = Matrix.Identity * Matrix.CreateTranslation(2f, -1f, 0) * Matrix.CreateScale(0.3f, 1f, 0.3f) * Matrix.CreateRotationX((float)Math.PI);
+            boneRLeg.Transform = Matrix.Identity * Matrix.CreateTranslation(2f, -1f, 0) * Matrix.CreateScale(0.3f, 1.5f, 0.3f) * Matrix.CreateRotationX((float)Math.PI);
             boneRLeg.ModelTransform = Matrix.Identity;
             boneRLeg.AddMesh(meshRLeg);
             meshRLeg.ParentBone = boneRLeg;
@@ -64,7 +64,7 @@ namespace Manager.Helpers
             var boneLLeg = new ModelBone();
             boneLLeg.Index = 2;
             boneLLeg.Name = "LeftLeg";
-            boneLLeg.Transform = Matrix.Identity * Matrix.CreateTranslation(-2f, -1f, 0) * Matrix.CreateScale(0.3f, 1f, 0.3f) * Matrix.CreateRotationX((float)Math.PI);
+            boneLLeg.Transform = Matrix.Identity * Matrix.CreateTranslation(-2f, -1f, 0) * Matrix.CreateScale(0.3f, 1.5f, 0.3f) * Matrix.CreateRotationX((float)Math.PI);
             boneLLeg.ModelTransform = Matrix.Identity;
             boneLLeg.AddMesh(meshLLeg);
             meshLLeg.ParentBone = boneLLeg;
@@ -80,27 +80,26 @@ namespace Manager.Helpers
             modelMeshes.Add(meshLLeg);
 
             meshBodyList.ForEach((ModelMeshPart obj) => {
-                var effect = new BasicEffect(Engine.GetInst().GraphicsDevice);
-                
-                effect.Texture = Engine.GetInst().Content.Load<Texture2D>("skybox_texture");
-                effect.TextureEnabled = true;
-                effect.VertexColorEnabled = false;
+                var effect = new BasicEffect(Engine.GetInst().GraphicsDevice)
+                {
+                    Texture = Engine.GetInst().Content.Load<Texture2D>("das_robot"),
+                    TextureEnabled = true,
+                    VertexColorEnabled = false
+                };
                 obj.Effect = effect;
             });
             meshRLegList.ForEach((ModelMeshPart obj) => {
-                var effect = new BasicEffect(Engine.GetInst().GraphicsDevice);
-                
-                effect.Texture = Engine.GetInst().Content.Load<Texture2D>("skybox_texture");
-                effect.TextureEnabled = true;
-                effect.VertexColorEnabled = false;
+                var effect = new BasicEffect(Engine.GetInst().GraphicsDevice)
+                {
+                    VertexColorEnabled = true
+                };
                 obj.Effect = effect;
             });
             meshLLegList.ForEach((ModelMeshPart obj) => {
-                var effect = new BasicEffect(Engine.GetInst().GraphicsDevice);
-                
-                effect.Texture = Engine.GetInst().Content.Load<Texture2D>("skybox_texture");
-                effect.TextureEnabled = true;
-                effect.VertexColorEnabled = false;
+                var effect = new BasicEffect(Engine.GetInst().GraphicsDevice)
+                {
+                    VertexColorEnabled = true
+                };
                 obj.Effect = effect;
             });
 

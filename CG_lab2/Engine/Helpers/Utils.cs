@@ -6,7 +6,6 @@ namespace Manager.Helpers
 {
 	public class Utils
 	{
-		//ccc
 		public static void DrawBoundingBox(BoundingBox bBox, Color color, GraphicsDevice device, BasicEffect basicEffect, Matrix worldMatrix, Matrix viewMatrix, Matrix projectionMatrix)
 		{
 			Vector3 v1 = bBox.Min;
@@ -34,6 +33,7 @@ namespace Manager.Helpers
 			{
 				pass.Apply();
 				device.DrawUserIndexedPrimitives(PrimitiveType.LineList, cubeLineVertices, 0, 8, cubeLineIndices, 0, 12);
+
 			}
 		}
 		public static void DrawSphere(BoundingSphere sphere, Color color, GraphicsDevice device, BasicEffect basicEffect, Matrix worldMatrix, Matrix viewMatrix, Matrix projectionMatrix)
@@ -61,6 +61,8 @@ namespace Manager.Helpers
 			{
 				pass.Apply();
 				device.DrawUserPrimitives(PrimitiveType.LineList, sphereLineVertices, 0, 3);
+
+
 			}
 		}
 	}
